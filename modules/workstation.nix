@@ -53,7 +53,7 @@
     binaryCachePublicKeys = [
       "hie-nix.cachix.org-1:EjBSHzF6VmDnzqlldGXbi0RM3HdjfTU3yDRi9Pd0jTY="
     ];
-    trustedUsers = [ "root" "silvio" ];
+    trustedUsers = [ "root" "cj" ];
   };
 
   # nix.useSandbox = true;
@@ -66,7 +66,6 @@
   programs.browserpass.enable = true;
 
   environment.systemPackages = with pkgs; [
-    # flashplayer
     ack
     adwaita-qt
     ansible
@@ -79,29 +78,22 @@
     dhall-json
     dmenu
     docker_compose
-    evince
+    okular
     firefox
     fdupes
     git-review
     gw
     gradle
-    gthumb
-    gnome3.rhythmbox
     hplip
     html2text
     icedtea8_web
     imagemagick7
     ispell
     isync
-    jetbrains.datagrip
-    jetbrains.idea-community
-    keepassx2
-    keepassxc
     libreoffice
     libressl
     libxml2
     macchanger
-    mitscheme
     mu
     nix-index
     nodejs-10_x
@@ -109,21 +101,18 @@
     nodePackages.node2nix
     offlineimap
     openjdk11
-    pavucontrol
     pandoc
     phantomjs
-    pinentry_gnome
+    pinentry_qt5
     python3
     qt5.full
     libsForQt5.qtstyleplugins
     libsForQt5.libkipi
-    rofi
-    rofi-launcher
     rubber
-    sbcl
     shared_mime_info
     spotify
-    termite
+    synergy
+    konsole
     (texlive.combine {
       inherit (texlive) scheme-medium moderncv cmbright;
     })
@@ -136,21 +125,13 @@
     vlc
     xautolock
     xiccd
-    w3m
     xsel
-    yarn
+    # yarn
     zbar
     zip
   ]
-  ++ (with pkgs.gnomeExtensions; [
-    system-monitor
-    caffeine
-    no-title-bar
-    dash-to-panel
-  ])
-
     ++ (with pkgs.haskellPackages; [
-      beans
+      # beans
       cabal-install
       apply-refact
       cabal2nix
@@ -161,7 +142,7 @@
       # stylish-haskell
     ]);
 
-  virtualisation.virtualbox.host.enable = true;
+  # virtualisation.virtualbox.host.enable = true;
 
   hardware.pulseaudio.enable = true;
 
@@ -171,8 +152,8 @@
 
   services.xserver = {
     enable = true;
-    displayManager.gdm.enable = true;
-    desktopManager.gnome3.enable = true;
+    displayManager.sddm.enable = true;
+    desktopManager.plasma5.enable = true;
   };
 
   services.tor = {

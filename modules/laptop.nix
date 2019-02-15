@@ -1,8 +1,8 @@
 {
-  services.tlp = {
+  services.tlp.enable = true;
+
+  hardware.bluetooth = {
     enable = true;
-    # extraConfig = ''
-    #   DEVICES_TO_DISABLE_ON_STARTUP="bluetooth"
-    # '';
+    powerOnBoot = false;
   };
 }

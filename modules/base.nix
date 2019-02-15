@@ -24,11 +24,11 @@ in
     ];
   };
 
-  time.timeZone = "Europe/Zurich";
+  time.timeZone = "Europe/Madrid";
 
   i18n = {
-    consoleKeyMap = "us";
-    defaultLocale = "en_US.UTF-8";
+    consoleKeyMap = "es";
+    defaultLocale = "es_ES.UTF-8";
   };
 
   boot = {
@@ -40,13 +40,13 @@ in
   hardware = {
     enableAllFirmware = true;
     cpu = {
-      amd.updateMicrocode = true;
       intel.updateMicrocode = true;
     };
   };
 
   environment.systemPackages = with pkgs; [
     ack
+    any-nix-shell
     bind
     borgbackup
     direnv
@@ -95,34 +95,19 @@ in
 
   programs = {
 
-    zsh = {
+    fish = {
       enable = true;
-      enableCompletion = true;
-      ohMyZsh = {
-        enable = true;
-        custom = "${./zsh-custom}";
-        theme = "silvio";
-        plugins = [
-          "git"
-          "gradle"
-          "rsync"
-          "stack"
-          "history-substring-search"
-        ];
-      };
-      interactiveShellInit = ''
-        export PATH=$HOME/.local/bin:$PATH
-        export PASSWORD_STORE_X_SELECTION=primary
-        export GPG_TTY=$(tty)
-        HYPHEN_INSENSITIVE="true"
+      promptInit = ''
+        if test "$TERM" = "dumb"
+          function fish_prompt
+            echo "\$ "
+          end
 
-        bindkey -M emacs '^P' history-substring-search-up
-        bindkey -M emacs '^N' history-substring-search-down
-
-        eval "$(${pkgs.direnv}/bin/direnv hook zsh)"
-
-        eval $(${pkgs.coreutils}/bin/dircolors "${./dircolors.ansi-universal}")
-        # systemctl --user import-environment PATH DISPLAY XAUTHORITY HOME GPG_TTY
+          function fish_right_prompt; end
+          function fish_greeting; end
+          function fish_title; end
+        end
+        any-nix-shell fish --info-right | source
       '';
     };
 
@@ -176,25 +161,25 @@ in
   };
 
   users = {
-    defaultUserShell = pkgs.zsh;
+    defaultUserShell = pkgs.fish;
     extraUsers = {
-      silvio = {
-        home = "/home/silvio";
-        description = "Silvio Böhler";
+      cj = {
+        home = "/home/cj";
+        description = "Carlos José";
         isNormalUser = true;
         extraGroups = ["wheel" "docker" "libvirtd" "audio" "transmission" "networkmanager" "cdrom"];
         uid = 1000;
-        openssh.authorizedKeys.keys = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDFqXLmL2FVGAkSlndgqaEDx0teA6Ai1wLu21KSdcBnV6XldetAHZ8AAeodgEqIYD/sO69xCm9Kwa3DbktdMO28MO6A7poQ4jvDVHray7mpsm3z5xgc1HAadjNUBvlPjPBbCvZkhcI2/MSvVknl5uFXeH58AqaIq6Ump4gIC27Mj9vLMuw7S5MoR6vJgxKK/h52yuKXs8bisBvrHYngBgxA0wpg/v3G04iplPtTtyIY3uqkgPv3VfMSEyOuZ+TLujFg36FxU5I7Ok0Bjf8f+/OdE41MYYUH1VPIHFtxNs8MPCcz2Sv0baxEhAiEBpnWsQx8mBhxmQ/cK4Ih2EOLqPKR"];
+        openssh.authorizedKeys.keys = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0F68d7iCZvGVBZDZZRjHeVZbgnJLG/X6hN2vxrBKqqmGSLX7YEKkyYkf7UF9mac1YwBpDrmOnkGXIG2E8Ie9HokszxQk9BdKxq7EfFjghs/TabdOC98Dz32XLs1gsNh41AA1yg+7BUYGtz/eryUfBCP0+WDZl6XFskMU2q0AYP49guJTB+Z3Ix8nY0HLh+/N0Sc6mklYwswcwD3ZAZVD2NDzbhdsvvig9aj+6sAGUWZlEHLE/N5/jbKfiDCDzv5VVYl0H9xXbu4li3SISUdtsHx9AthklRl6AtxjV4X1KZD42DMBVrHj8yJHHpsLK4ZSjWY7wxaUS99tOPumgzVXP cj@corsair-carlos"];
       };
       root = {
-        openssh.authorizedKeys.keys = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDFqXLmL2FVGAkSlndgqaEDx0teA6Ai1wLu21KSdcBnV6XldetAHZ8AAeodgEqIYD/sO69xCm9Kwa3DbktdMO28MO6A7poQ4jvDVHray7mpsm3z5xgc1HAadjNUBvlPjPBbCvZkhcI2/MSvVknl5uFXeH58AqaIq6Ump4gIC27Mj9vLMuw7S5MoR6vJgxKK/h52yuKXs8bisBvrHYngBgxA0wpg/v3G04iplPtTtyIY3uqkgPv3VfMSEyOuZ+TLujFg36FxU5I7Ok0Bjf8f+/OdE41MYYUH1VPIHFtxNs8MPCcz2Sv0baxEhAiEBpnWsQx8mBhxmQ/cK4Ih2EOLqPKR silvio"];
+        openssh.authorizedKeys.keys = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0F68d7iCZvGVBZDZZRjHeVZbgnJLG/X6hN2vxrBKqqmGSLX7YEKkyYkf7UF9mac1YwBpDrmOnkGXIG2E8Ie9HokszxQk9BdKxq7EfFjghs/TabdOC98Dz32XLs1gsNh41AA1yg+7BUYGtz/eryUfBCP0+WDZl6XFskMU2q0AYP49guJTB+Z3Ix8nY0HLh+/N0Sc6mklYwswcwD3ZAZVD2NDzbhdsvvig9aj+6sAGUWZlEHLE/N5/jbKfiDCDzv5VVYl0H9xXbu4li3SISUdtsHx9AthklRl6AtxjV4X1KZD42DMBVrHj8yJHHpsLK4ZSjWY7wxaUS99tOPumgzVXP cj@corsair-carlos"];
       };
     };
   };
 
   security = {
     pam = {
-      services.gdm.enableGnomeKeyring = true;
+      services.sddm.enableKwallet = true;
     };
 
     sudo = {

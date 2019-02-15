@@ -17,6 +17,7 @@
 
 
   boot = {
+    loader.systemd-boot.consoleMode="0";
     kernelModules = [ "kvm-intel" ];
 
     initrd = {
@@ -30,13 +31,6 @@
         "sd_mod"
         "rtsx_pci_sdmmc"
       ];
-      luks.devices = [
-        {
-          name = "root";
-          device = "/dev/nvme0n1p2";
-          preLVM = true;
-        }
-      ];
     };
     extraModprobeConfig = ''
       options i915 enable_fbc=1 enable_rc6=1 modeset=1
@@ -45,11 +39,10 @@
     '';
   };
 
-  services.tlp = {
-    extraConfig = ''
+  services.tlp.extraConfig = ''
       DISK_DEVICES="nvme0n1";
-    '';
-  };
+      DEVICES_TO_DISABLE_ON_STARTUP="bluetooth"
+  '';
 
   networking.hostName = "xps13";
 
@@ -57,26 +50,32 @@
 
   fileSystems = {
     "/" = {
-      device = "/dev/disk/by-uuid/a6bd768c-b7aa-4101-9c05-9506979ff5f9";
+      device = "/dev/disk/by-uuid/d2afe2de-20b0-490b-a6e3-11448e388c0b";
       fsType = "btrfs";
       options = [ "subvol=@nixos" "space_cache" "noatime"];
     };
 
     "/home" = {
-      device = "/dev/disk/by-uuid/a6bd768c-b7aa-4101-9c05-9506979ff5f9";
+      device = "/dev/disk/by-uuid/d2afe2de-20b0-490b-a6e3-11448e388c0b";
       fsType = "btrfs";
       options = [ "subvol=@nixos_home" "space_cache" "noatime" ];
     };
 
     "/boot" = {
-      device = "/dev/disk/by-uuid/E8B5-40A9";
+      device = "/dev/disk/by-uuid/E4DC-E1C0";
       fsType = "vfat";
     };
   };
 
-  swapDevices = [{
-    device = "/dev/disk/by-uuid/d6707d20-eb42-4e3a-8dff-31fa02af3b89";
-  }];
-
   nix.maxJobs = lib.mkDefault 4;
+
+  services.xserver = {
+    libinput.enable = true;
+    dpi = 276;
+  };
+
+  services.synergy.client = {
+    enable = true;
+    serverAddress = "192.168.1.60";
+  };
 }
