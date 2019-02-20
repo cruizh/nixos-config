@@ -70,6 +70,7 @@
     adwaita-qt
     ansible
     arandr
+    ark
     beancount
     chromium
     darktable
@@ -79,7 +80,7 @@
     dmenu
     docker_compose
     okular
-    firefox
+    firefox-bin
     fdupes
     git-review
     gw
@@ -90,6 +91,7 @@
     imagemagick7
     ispell
     isync
+    kdeconnect
     libreoffice
     libressl
     libxml2
@@ -113,6 +115,7 @@
     spotify
     synergy
     konsole
+    tdesktop
     (texlive.combine {
       inherit (texlive) scheme-medium moderncv cmbright;
     })
@@ -124,9 +127,11 @@
     virtmanager
     vlc
     xautolock
+    xdg-user-dirs
     xiccd
     xsel
     # yarn
+    yakuake
     zbar
     zip
   ]

@@ -1,12 +1,11 @@
 { config, pkgs, ... }:
+with pkgs;
 let
-  myEmacs = import ./emacs.nix { inherit pkgs; };
-  # stable = import (pkgs.fetchFromGitHub {
-  #   owner = "NixOS";
-  #   repo = "nixpkgs-channels";
-  #   rev = "9d608a6f592144b5ec0b486c90abb135a4b265eb";
-  #   sha256 = "03brvnpqxiihif73agsjlwvy5dq0jkfi2jh4grp4rv5cdkal449k";
-  # }) {};
+  Rstudio-with-my-packages = rstudioWrapper.override{
+    packages = with rPackages; [
+      tidyverse
+    ];
+  };
 in
 {
   nixpkgs = {
@@ -18,10 +17,10 @@ in
   nix = {
     buildCores = 0;
     autoOptimiseStore = true;
-    nixPath = [
-      "/nix"
-      "nixos-config=/etc/nixos/configuration.nix"
-    ];
+#    nixPath = [
+#      "nixpkgs=/nix/nixpkgs"
+#      "nixos-config=/etc/nixos/configuration.nix"
+#    ];
   };
 
   time.timeZone = "Europe/Madrid";
@@ -50,7 +49,7 @@ in
     bind
     borgbackup
     direnv
-    myEmacs
+    emacs
     exfat
     file
     gnupg
@@ -73,6 +72,7 @@ in
     python
     rclone
     restic
+    Rstudio-with-my-packages
     samba
     silver-searcher
     smartmontools
@@ -122,7 +122,6 @@ in
   services.emacs = {
     enable = true;
     defaultEditor = true;
-    package = myEmacs;
   };
 
   systemd.user.services.emacs.environment.SSH_AUTH_SOCK = "%t/keyring/ssh";
@@ -169,10 +168,10 @@ in
         isNormalUser = true;
         extraGroups = ["wheel" "docker" "libvirtd" "audio" "transmission" "networkmanager" "cdrom"];
         uid = 1000;
-        openssh.authorizedKeys.keys = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0F68d7iCZvGVBZDZZRjHeVZbgnJLG/X6hN2vxrBKqqmGSLX7YEKkyYkf7UF9mac1YwBpDrmOnkGXIG2E8Ie9HokszxQk9BdKxq7EfFjghs/TabdOC98Dz32XLs1gsNh41AA1yg+7BUYGtz/eryUfBCP0+WDZl6XFskMU2q0AYP49guJTB+Z3Ix8nY0HLh+/N0Sc6mklYwswcwD3ZAZVD2NDzbhdsvvig9aj+6sAGUWZlEHLE/N5/jbKfiDCDzv5VVYl0H9xXbu4li3SISUdtsHx9AthklRl6AtxjV4X1KZD42DMBVrHj8yJHHpsLK4ZSjWY7wxaUS99tOPumgzVXP cj@corsair-carlos"];
+        openssh.authorizedKeys.keys = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCicDwHTb5oVrjpnPjp0s2++lmOSiPxStReoyCbA5NZFXPeXxnUQW5BmL5o5L9L1XF9vLFSZuF0JgjaBUzgPhnyJzheqp1A37V/h2qaQtRMU+QGy9iob/5k7LXYoG0JXCFHWaXvzBaXIXRXU/VFHQvUYonCPZwe61LOAiyCb29RIE6GRHvVIZD8V/EaIprQM79OEf8sU7MA1viE7XPE3x7q+f9znKZInNVPmQwf1nJbpn9rFyk6WWId0zr8wQaVgCjRJ8hRnKc3tttxW/K3eysjIX52BwrQu4sKNSW9h4nPPn3v0PeDNoeoAD+jJbl7GE0pa7OjjGN1vJXJcHzrwF/P cj@corsair-carlos"];
       };
       root = {
-        openssh.authorizedKeys.keys = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0F68d7iCZvGVBZDZZRjHeVZbgnJLG/X6hN2vxrBKqqmGSLX7YEKkyYkf7UF9mac1YwBpDrmOnkGXIG2E8Ie9HokszxQk9BdKxq7EfFjghs/TabdOC98Dz32XLs1gsNh41AA1yg+7BUYGtz/eryUfBCP0+WDZl6XFskMU2q0AYP49guJTB+Z3Ix8nY0HLh+/N0Sc6mklYwswcwD3ZAZVD2NDzbhdsvvig9aj+6sAGUWZlEHLE/N5/jbKfiDCDzv5VVYl0H9xXbu4li3SISUdtsHx9AthklRl6AtxjV4X1KZD42DMBVrHj8yJHHpsLK4ZSjWY7wxaUS99tOPumgzVXP cj@corsair-carlos"];
+        openssh.authorizedKeys.keys = ["ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCicDwHTb5oVrjpnPjp0s2++lmOSiPxStReoyCbA5NZFXPeXxnUQW5BmL5o5L9L1XF9vLFSZuF0JgjaBUzgPhnyJzheqp1A37V/h2qaQtRMU+QGy9iob/5k7LXYoG0JXCFHWaXvzBaXIXRXU/VFHQvUYonCPZwe61LOAiyCb29RIE6GRHvVIZD8V/EaIprQM79OEf8sU7MA1viE7XPE3x7q+f9znKZInNVPmQwf1nJbpn9rFyk6WWId0zr8wQaVgCjRJ8hRnKc3tttxW/K3eysjIX52BwrQu4sKNSW9h4nPPn3v0PeDNoeoAD+jJbl7GE0pa7OjjGN1vJXJcHzrwF/P cj@corsair-carlos"];
       };
     };
   };
