@@ -76,6 +76,6 @@
 
   services.synergy.client = {
     enable = true;
-    serverAddress = "192.168.1.60";
+    serverAddress = "192.168.1.71";
   };
 }

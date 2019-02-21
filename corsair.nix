@@ -16,7 +16,7 @@
 
   boot = {
     kernelModules = [ "kvm-intel" ];
-
+    kernelParams =  [ "amdgpu.dc=1" ];
     initrd = {
       availableKernelModules = [
         "xhci_pci"
@@ -32,7 +32,7 @@
 
   networking.hostName = "corsair-carlos";
 
-  virtualisation.virtualbox.host.enable = true;
+#  virtualisation.virtualbox.host.enable = true;
 
   services.btrfs.autoScrub = {
     fileSystems = ["/"];
@@ -40,7 +40,8 @@
 
   services.xserver = {
     videoDrivers = ["amdgpu" "ati" "vesa" "modesetting"];
-    
+    dpi = 109;
+    displayManager.sddm.enableHidpi = true;
   };
 
   fileSystems."/" =
@@ -62,7 +63,8 @@
 
   nix.maxJobs = lib.mkDefault 6;
 
-
+  hardware.ckb-next.enable = true;
+  
   services.synergy.server.enable = true;
   networking.firewall.allowedTCPPorts = [24800];
   environment.etc."synergy-server.conf".text = ''

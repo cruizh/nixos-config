@@ -33,7 +33,7 @@ in
   boot = {
     kernelPackages = if config.virtualisation.virtualbox.host.enable
                        then pkgs.linuxPackagesFor pkgs.linux_4_19
-                       else pkgs.linuxPackagesFor pkgs.linux_4_20;
+                       else pkgs.linuxPackagesFor pkgs.linux_latest;
   };
 
   hardware = {
@@ -46,6 +46,7 @@ in
   environment.systemPackages = with pkgs; [
     ack
     any-nix-shell
+    (appimage-run.override { extraPkgs = p: with p; [ libsecret ]; }) # Needed for Bitwarden's AppImage
     bind
     borgbackup
     direnv
@@ -54,7 +55,6 @@ in
     file
     gnupg
     gptfdisk
-    gopass
     htop
     hdparm
     iotop
@@ -63,7 +63,6 @@ in
     nix-prefetch-scripts
     neovim
     nvme-cli
-    (pass.withExtensions (e: [e.pass-otp]))
     patchelf
     pciutils
     pinentry

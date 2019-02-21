@@ -58,12 +58,10 @@
 
   # nix.useSandbox = true;
 
-  nixpkgs.config.firefox = {
-    enableAdobeFlash = true;
-    jre = true;
-  };
-
-  programs.browserpass.enable = true;
+#   nixpkgs.config.firefox = {
+#     enableAdobeFlash = true;
+#     jre = true;
+#   };
 
   environment.systemPackages = with pkgs; [
     ack
@@ -112,6 +110,8 @@
     libsForQt5.libkipi
     rubber
     shared_mime_info
+    spectacle
+    speedcrunch
     spotify
     synergy
     konsole
@@ -125,7 +125,9 @@
     tor-browser-bundle-bin
     vanilla-dmz
     virtmanager
+    vivaldi
     vlc
+    vscode
     xautolock
     xdg-user-dirs
     xiccd
