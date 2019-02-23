@@ -118,9 +118,7 @@
     synergy
     konsole
     tdesktop
-    (texlive.combine {
-      inherit (texlive) scheme-medium moderncv cmbright;
-    })
+    texlive.combined.scheme-full
     thunderbird
     exiftool
     tabula
