@@ -1,5 +1,9 @@
 { pkgs, config, ... }:
 {
+  imports = [
+  ./kdeconnect.nix
+  ./spelling.nix
+  ];
   nixpkgs.config = {
 
     packageOverrides = pkgs: rec {
@@ -87,9 +91,7 @@
     html2text
     icedtea8_web
     imagemagick7
-    ispell
     isync
-    kdeconnect
     libreoffice
     libressl
     libxml2
