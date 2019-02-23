@@ -106,6 +106,7 @@
     pandoc
     phantomjs
     pinentry_qt5
+    plasma-vault
     python3
     qt5.full
     libsForQt5.qtstyleplugins
