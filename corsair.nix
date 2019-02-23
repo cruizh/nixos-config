@@ -38,12 +38,6 @@
     fileSystems = ["/"];
   };
 
-  services.xserver = {
-    videoDrivers = ["amdgpu" "ati" "vesa" "modesetting"];
-    dpi = 109;
-    displayManager.sddm.enableHidpi = true;
-  };
-
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/b6a2673d-c0f3-4bf6-9d69-86688d5b9c1e";
       fsType = "btrfs";
@@ -64,7 +58,17 @@
   nix.maxJobs = lib.mkDefault 6;
 
   hardware.ckb-next.enable = true;
-  
+
+  environment.variables = {
+    GDK_DPI_SCALE="1.1354";
+    QT_AUTO_SCREEN_SCALE_FACTOR="1";
+  };
+  services.xserver = {
+    videoDrivers = ["amdgpu" "ati" "vesa" "modesetting"];
+    dpi = 109;
+    displayManager.sddm.enableHidpi = true;
+  };
+
   services.synergy.server.enable = true;
   networking.firewall.allowedTCPPorts = [24800];
   environment.etc."synergy-server.conf".text = ''
