@@ -32,8 +32,6 @@
 
   networking.hostName = "corsair-carlos";
 
-#  virtualisation.virtualbox.host.enable = true;
-
   services.btrfs.autoScrub = {
     fileSystems = ["/"];
   };
@@ -64,7 +62,7 @@
     QT_AUTO_SCREEN_SCALE_FACTOR="1";
   };
   services.xserver = {
-    videoDrivers = ["amdgpu" "ati" "vesa" "modesetting"];
+    videoDrivers = ["amdgpu"];
     dpi = 109;
     displayManager.sddm.enableHidpi = true;
   };
